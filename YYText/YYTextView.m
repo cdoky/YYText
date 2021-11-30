@@ -378,6 +378,7 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
 /// Update placeholder immediately.
 - (void)_updatePlaceholder {
     CGRect frame = CGRectZero;
+    frame.origin = self.placeholderPosition;
     _placeHolderView.image = nil;
     _placeHolderView.frame = frame;
     if (_placeholderAttributedText.length > 0) {

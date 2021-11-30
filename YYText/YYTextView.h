@@ -187,6 +187,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nullable, nonatomic, strong) UIFont *placeholderFont;
 
+@property (nullable, nonatomic, strong) CGPoint placeholderPosition;
+
 /**
  The color of the placeholder text. Default is gray.
  Set a new value to this property also causes the new color to be applied to the entire `placeholderAttributedText`.
