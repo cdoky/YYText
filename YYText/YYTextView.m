@@ -378,32 +378,32 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
 /// Update placeholder immediately.
 - (void)_updatePlaceholder {
     CGRect frame = CGRectZero;
-    frame.origin = self.placeholderPosition;
     _placeHolderView.image = nil;
     _placeHolderView.frame = frame;
-    if (_placeholderAttributedText.length > 0) {
-        YYTextContainer *container = _innerContainer.copy;
-        container.size = self.bounds.size;
-        container.truncationType = YYTextTruncationTypeEnd;
-        container.truncationToken = nil;
-        YYTextLayout *layout = [YYTextLayout layoutWithContainer:container text:_placeholderAttributedText];
-        CGSize size = [layout textBoundingSize];
-        BOOL needDraw = size.width > 1 && size.height > 1;
-        if (needDraw) {
-            UIGraphicsBeginImageContextWithOptions(size, NO, 0);
-            CGContextRef context = UIGraphicsGetCurrentContext();
-            [layout drawInContext:context size:size debug:self.debugOption];
-            UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-            UIGraphicsEndImageContext();
-            _placeHolderView.image = image;
-            frame.size = image.size;
-            if (container.isVerticalForm) {
-                frame.origin.x = self.bounds.size.width - image.size.width;
-            } else {
-                frame.origin = CGPointZero;
-            }
-            _placeHolderView.frame = frame;
+    if (_placeholderAttributedText.length <= 0) {
+        return;
+    }
+    YYTextContainer *container = _innerContainer.copy;
+    container.size = self.bounds.size;
+    container.truncationType = YYTextTruncationTypeEnd;
+    container.truncationToken = nil;
+    YYTextLayout *layout = [YYTextLayout layoutWithContainer:container text:_placeholderAttributedText];
+    CGSize size = [layout textBoundingSize];
+    BOOL needDraw = size.width > 1 && size.height > 1;
+    if (needDraw) {
+        UIGraphicsBeginImageContextWithOptions(size, NO, 0);
+        CGContextRef context = UIGraphicsGetCurrentContext();
+        [layout drawInContext:context size:size debug:self.debugOption];
+        UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        _placeHolderView.image = image;
+        frame.size = image.size;
+        if (container.isVerticalForm) {
+            frame.origin.x = self.bounds.size.width - image.size.width;
+        } else {
+            frame.origin = self.placeholderPosition;
         }
+        _placeHolderView.frame = frame;
     }
 }
 
